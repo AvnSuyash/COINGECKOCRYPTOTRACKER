@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { fetchCoinData } from "../../services/fetchCoinData";
 import { useQuery } from "@tanstack/react-query";
+import { CurrencyContext } from "../../CurrencyContext/CurrencyContext";
+import { useNavigate } from "react-router-dom";
 
 function CoinTable() {
     const [page, setPage] = useState(1);
-
+    const {currency}=useContext(CurrencyContext);
     const {
         data,
         isLoading,
@@ -12,8 +14,8 @@ function CoinTable() {
         error,
         isFetching,
     } = useQuery({
-        queryKey: ['coins', page],
-        queryFn: () => fetchCoinData(page, 'usd'),
+        queryKey: ['coins', page,currency],
+        queryFn: () => fetchCoinData(page, currency),
         cacheTime: 1000 * 60 * 20,
         staleTime:1000 *60 *20,
     });
@@ -22,9 +24,13 @@ function CoinTable() {
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
-
+    const navigate=useNavigate();
+    function handleCoinRedirect(id){
+        navigate(`/details/${id}`);
+    }
     return (
         <div className="flex flex-col items-center justify-center mx-auto my-5 gap-4 w-[80vw]">
+            <div>{currency}</div>
             <div className="flex items-center justify-center w-full px-3 py-2 font-semibold text-black bg-yellow-300">
                 <div className="w-[35%]">Coin</div>
                 <div className="w-[25%]">Price</div>
@@ -38,7 +44,9 @@ function CoinTable() {
                     
                     data && data.map((coin) => {
                         return (
-                            <div key={coin.id} className="flex items-center justify-between px-2 py-4 font-semibold text-white bg-transparent">
+                            <div 
+                            onClick={()=>handleCoinRedirect(coin.id)}
+                            key={coin.id} className="flex items-center justify-between px-2 py-4 font-semibold text-white bg-transparent cursor-pointer">
                                 <div className="flex items-center gap-3 w-[35%]">
                                     <div className="w-[5rem] h-[5rem]">
                                         <img src={coin.image} className="w-full h-full" />

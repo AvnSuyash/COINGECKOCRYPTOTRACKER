@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosInstance from "../helpers/axiosInstance"
 
 export async function fetchCoinData(page, currency){
