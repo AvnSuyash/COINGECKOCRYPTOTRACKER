@@ -5,7 +5,6 @@ import Navbar from "../Components/NavBar/Navbar";
 function Home(){
     return(
     <>
-        <Navbar/>
         <Banner/>
         <CoinTable/>
     </>
