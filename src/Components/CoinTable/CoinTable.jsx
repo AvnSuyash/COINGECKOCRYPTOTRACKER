@@ -20,15 +20,16 @@ function CoinTable() {
         staleTime:1000 *60 *20,
     });
     
-    if(isLoading){
+ 
+    const navigate=useNavigate();
+    function handleCoinRedirect(id){
+        navigate(`/details/${id}`);
+    }
+       if(isLoading){
         return <PageLoader/>
     }
     if (isError) {
         return <div>Error: {error.message}</div>;
-    }
-    const navigate=useNavigate();
-    function handleCoinRedirect(id){
-        navigate(`/details/${id}`);
     }
     return (
         <div className="flex flex-col items-center justify-center mx-auto my-5 gap-4 w-[80vw]">

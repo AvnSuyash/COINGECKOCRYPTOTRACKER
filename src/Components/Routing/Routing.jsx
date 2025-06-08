@@ -8,10 +8,12 @@ const Home=lazy(()=>import("../../pages/Home"));
 const CoinDetailsPage=lazy(()=>import("../../pages/CoinDetailsPage"));
 // import { Facebook } from 'react-content-loader'
 import PageLoader from "../PageLoader/PageLoader";
+import CustomErrorBoundary from "../CustomErrorBoundary/CustomErrorBoundary";
 
 function Routing() {
   return (
-    <Routes>
+    <CustomErrorBoundary>
+      <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={
          <Suspense fallback={<PageLoader/>}>
@@ -23,8 +25,9 @@ function Routing() {
           <Suspense fallback={<PageLoader/>}>
             <CoinDetailsPage />
           </Suspense>} />
-      </Route>
+        </Route>
     </Routes>
+    </CustomErrorBoundary>
   );
 }
 
