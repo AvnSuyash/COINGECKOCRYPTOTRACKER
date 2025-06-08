@@ -3,7 +3,7 @@ import { fetchCoinData } from "../../services/fetchCoinData";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencyContext } from "../../CurrencyContext/CurrencyContext";
 import { useNavigate } from "react-router-dom";
-
+import PageLoader from "../PageLoader/PageLoader";
 function CoinTable() {
     const [page, setPage] = useState(1);
     const {currency}=useContext(CurrencyContext);
@@ -19,8 +19,10 @@ function CoinTable() {
         cacheTime: 1000 * 60 * 20,
         staleTime:1000 *60 *20,
     });
-
-
+    
+    if(isLoading){
+        return <PageLoader/>
+    }
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
